@@ -1,0 +1,28 @@
+﻿    @if (ViewBag.Products != null)
+    {
+        <div class="product-grid">
+            @foreach (var prod in ViewBag.Products)
+            {
+                <div class="product-item category@(prod.Category.CategoryId)">
+                    <div class="product discount product_filter">
+                        <div class="product_image">
+                            <a href="/product/view/@prod.ProductId">
+                                <img src="../../Content/Images/watchs/prod_@prod.ProductId/img_1.jpg" />
+                            </a>
+                        </div>
+                        <div class="product_info">
+                            <h6 class="product_name">
+                                <a href="/product/view/@prod.ProductId">@prod.ProductName</a>
+                            </h6>
+                            <div class="product_price">$@prod.Price</div>
+                        </div>
+                    </div>
+                    <div class="red_button add_to_cart_button"><a href="#" data-addcart="@prod.ProductId" data-quantity="1">Add to cart</a></div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-center">No product</p>
+    }

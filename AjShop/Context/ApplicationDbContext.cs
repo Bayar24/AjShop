@@ -7,7 +7,7 @@ namespace AjShop.Context
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("AjShopDbContext", throwIfV1Schema: false)
+            : base("AjShop", throwIfV1Schema: false)
         {
         }
 

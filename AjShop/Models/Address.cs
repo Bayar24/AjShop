@@ -13,7 +13,7 @@ namespace AjShop.Models
         public int AddressId { get; set; }
 
         [Required()]
-        [StringLength(100, MinimumLength =2)]
+        [StringLength(100, MinimumLength = 2)]
         public string Street { get; set; }
 
         [Required()]
@@ -31,5 +31,5 @@ namespace AjShop.Models
         [Required()]
         [StringLength(30, MinimumLength = 3)]
         public string Country { get; set; }
-}
+    }
 }

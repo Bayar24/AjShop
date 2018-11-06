@@ -1,0 +1,163 @@
+﻿@using AjShop.Models;
+@model AjShop.Models.Order
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container product_section_container">
+    <div class="billing_details">
+        <div class="row">
+            <div class="col-lg-8">
+                <form:form role="form" method="post" action="pay" modelAttribute="orderPayment">
+
+                    <div class="row mt-3">
+                        <div class="mb-3 mt-3">
+                            @if (ViewBag.SUCCESS_MESSAGE != null)
+                            {
+                                <div class="alert alert-success" role="alert">
+                                    @(ViewBag.SUCCESS_MESSAGE)
+                                </div>
+                            }
+                            @if (ViewBag.ERROR_MESSAGE != null)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @(ViewBag.ERROR_MESSAGE)
+                                </div>
+                            }
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <h3>Card Details</h3>
+                            @if (ViewBag.Cards != null)
+                            {
+                                <div class="col-md-12 form-group">
+                                    @foreach (var card in ViewBag.Cards)
+                                    {
+                                        <label>
+                                            <input type="radio" id="cards" value="@(card.CardId)" name="selCard">
+                                            @(card.CardType) - XXXXXXXXXXXX@(card.CardNumber.Substring(11, 4)) -
+                                            @(card.ExpMonth)/@(card.ExpYear)
+                                        </label>
+                                        <br />
+                                    }
+                                </div>
+                            }
+                            @if (Model != null)
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ZipCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <form:input type="hidden" path="orderPaymentId" />
+                                        <form:input type="hidden" path="total" />
+                                        <form:input type="hidden" path="taxAmount" />
+                                        <form:input type="hidden" path="totalAmount" />
+                                        <br>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a href="/cardpage?redirect=paymentpage" class="btn btn-primary mt-3 mb-3">Add new card</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12 form-group">
+                            <h3>Shipping Details</h3>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6 form-group p_star">
+                            <input type="checkbox" id="newaddr" name="newaddress" />
+                            <label for="newaddr">New Address?</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6 form-group p_star">
+                            <form:input type="text" cssClass="form-control" placeholder="State" path="address.state" />
+                            <form:errors path="address.state" />
+                        </div>
+                        <div class="col-md-6 form-group p_star">
+                            <form:input type="text" cssClass="form-control" placeholder="City" path="address.city" />
+                            <form:errors path="address.city" />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 form-group">
+                            <form:input type="text" cssClass="form-control" placeholder="Street" path="address.street" />
+                            <form:errors path="address.street" />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6 form-group p_star">
+                            <form:input type="text" path="address.zipCode" cssClass="form-control" placeholder="Zip Code" maxlength="5" />
+                            <form:errors path="address.zipCode" />
+                        </div>
+                        <div class="col-md-6 form-group p_star">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 form-group p_star">
+                            <button class="btn btn-primary btn-lg mt-3" type="submit">Place order</button>
+                        </div>
+                    </div>
+                </form:form>
+            </div>
+            <div class="col-lg-4">
+                <div class="order_box">
+                    <h3>Your Order</h3>
+                    <div class="p-3 p-lg-5 border">
+                        <ul class="list">
+                            <li>
+                                <a href="#">
+                                    <strong>Product</strong>
+                                    <span><strong>Total</strong></span>
+                                </a>
+                            </li>
+                            @foreach (OrderDetail od in Model.OrderDetails)
+                            {
+                                <li>
+                                    <a href="#">
+                                        <em class="product-list-left">@(od.Product.ProductName)</em>
+                                        <span class="middle"> x @(od.Quantity)</span>
+                                        <span class="last">$@(od.Product.Price)</span>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                        <ul class="list list_2">
+                            <li>
+                                <a href="#">
+                                    Subtotal
+                                    <span>$@(ViewBag.Total)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Tax amount
+                                    <span>$@(ViewBag.TaxAmount)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    Total
+                                    <span>$@(ViewBag.TotalAmount)</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
